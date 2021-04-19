@@ -22,7 +22,7 @@ class OAuthHttpClient implements HttpClientInterface
     /** @var GrantTypeInterface */
     private $grant;
     /** @var RequestSignerInterface */
-    private $modifier;
+    private $signer;
     /** @var ResponseCheckerInterface */
     private $checker;
     /** @var TokensCacheInterface */
@@ -34,14 +34,14 @@ class OAuthHttpClient implements HttpClientInterface
     ) {
         $this->client = $client;
         $this->grant = $grant;
-        $this->modifier = new BearerHeaderRequestSigner();
+        $this->signer = new BearerHeaderRequestSigner();
         $this->checker = new StatusCode401ResponseChecker();
         $this->cache = new MemoryTokensCache();
     }
 
-    public function setModifier(RequestSignerInterface $modifier): self
+    public function setSigner(RequestSignerInterface $signer): self
     {
-        $this->modifier = $modifier;
+        $this->signer = $signer;
 
         return $this;
     }
@@ -69,7 +69,7 @@ class OAuthHttpClient implements HttpClientInterface
 
         for ($tries = 0; $tries < 2; ++$tries) {
             $tokens = $this->cache->get($grant);
-            $this->modifier->modify($options, $tokens->getAccessToken());
+            $this->signer->modify($options, $tokens->getAccessToken());
             $response = $this->client->request($method, $url, $options);
 
             if (!$this->checker->hasAuthenticationFailed($response)) {

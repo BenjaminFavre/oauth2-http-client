@@ -2,7 +2,7 @@
 
 namespace BenjaminFavre\OAuthHttpClient\TokensCache;
 
-use BenjaminFavre\OAuthHttpClient\GrantType\OAuthException;
+use BenjaminFavre\OAuthHttpClient\Exception\OAuthException;
 use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
 use BenjaminFavre\OAuthHttpClient\GrantType\Tokens;
 

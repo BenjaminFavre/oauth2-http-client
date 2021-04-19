@@ -1,5 +1,16 @@
 {
-    "name": "benjaminfavre/oauth-http-client",
+    "name": "benjaminfavre/oauth2-http-client",
+    "description": "A lightweight OAuth 2 decorator for the Symfony HTTP Client.",
+    "keywords": ["symfony", "oauth", "http-client"],
+    "homepage": "https://github.com/BenjaminFavre/oauth2-http-client",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Benjamin Favre",
+            "email": "favre.benjamin@gmail.com",
+            "homepage": "https://github.com/BenjaminFavre"
+        }
+    ],
     "autoload": {
         "psr-4": {"BenjaminFavre\\OAuthHttpClient\\": "src/"}
     },
@@ -8,6 +19,9 @@
         "ext-json": "*",
         "symfony/http-client-contracts": "^2.3.1",
         "symfony/cache-contracts": "^2.2.0"
+    },
+    "provide": {
+        "symfony/http-client-implementation": "^2.3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4.3",
