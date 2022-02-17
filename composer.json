@@ -15,18 +15,18 @@
         "psr-4": {"BenjaminFavre\\OAuthHttpClient\\": "src/"}
     },
     "require": {
-        "php": "^7.2.5 || ^8.0.0",
+        "php": "^8.0.0",
         "ext-json": "*",
-        "symfony/http-client-contracts": "^2.3.1",
-        "symfony/cache-contracts": "^2.2.0"
+        "symfony/http-client-contracts": "^3.0",
+        "symfony/cache-contracts": "^3.0"
     },
     "provide": {
         "symfony/http-client-implementation": "^2.3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4.3",
-        "symfony/cache": "^5.2 || ^6.0",
-        "symfony/http-client": "^5.2 || ^6.0",
+        "symfony/cache": "^6.0",
+        "symfony/http-client": "^6.0",
         "phpstan/phpstan": "^0.12.64"
     },
     "scripts": {

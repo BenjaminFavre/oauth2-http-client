@@ -90,4 +90,9 @@ class OAuthHttpClient implements HttpClientInterface
     {
         return $this->client->stream($responses, $timeout);
     }
+
+    public function withOptions(array $options): static
+    {
+        return new static($this->client->withOptions($options), $this->grant);
+    }
 }
