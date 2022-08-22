@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\ResponseChecker;
 
 use Symfony\Contracts\HttpClient\ResponseInterface;

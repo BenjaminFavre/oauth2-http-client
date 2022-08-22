@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\TokensCache;
 
 use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
@@ -9,10 +11,9 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class SymfonyTokensCacheAdapter implements TokensCacheInterface
 {
-    /** @var CacheInterface */
-    private $cache;
-    /** @var string */
-    private $cacheKey;
+    private CacheInterface $cache;
+
+    private string $cacheKey;
 
     public function __construct(CacheInterface $cache, string $cacheKey)
     {

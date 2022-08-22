@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient;
 
-use BenjaminFavre\OAuthHttpClient\TokensCache\MemoryTokensCache;
-use BenjaminFavre\OAuthHttpClient\TokensCache\TokensCacheInterface;
 use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
-use BenjaminFavre\OAuthHttpClient\ResponseChecker\ResponseCheckerInterface;
-use BenjaminFavre\OAuthHttpClient\ResponseChecker\StatusCode401ResponseChecker;
 use BenjaminFavre\OAuthHttpClient\GrantType\RefreshableGrantTypeInterface;
 use BenjaminFavre\OAuthHttpClient\RequestSigner\BearerHeaderRequestSigner;
 use BenjaminFavre\OAuthHttpClient\RequestSigner\RequestSignerInterface;
+use BenjaminFavre\OAuthHttpClient\ResponseChecker\ResponseCheckerInterface;
+use BenjaminFavre\OAuthHttpClient\ResponseChecker\StatusCode401ResponseChecker;
+use BenjaminFavre\OAuthHttpClient\TokensCache\MemoryTokensCache;
+use BenjaminFavre\OAuthHttpClient\TokensCache\TokensCacheInterface;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -17,20 +19,19 @@ use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
 class OAuthHttpClient implements HttpClientInterface
 {
-    /** @var HttpClientInterface */
-    private $client;
-    /** @var GrantTypeInterface */
-    private $grant;
-    /** @var RequestSignerInterface */
-    private $signer;
-    /** @var ResponseCheckerInterface */
-    private $checker;
-    /** @var TokensCacheInterface */
-    private $cache;
+    private HttpClientInterface $client;
+
+    private GrantTypeInterface $grant;
+
+    private RequestSignerInterface|BearerHeaderRequestSigner $signer;
+
+    private ResponseCheckerInterface|StatusCode401ResponseChecker $checker;
+
+    private TokensCacheInterface|MemoryTokensCache $cache;
 
     public function __construct(
         HttpClientInterface $client,
-        GrantTypeInterface $grant
+        GrantTypeInterface $grant,
     ) {
         $this->client = $client;
         $this->grant = $grant;

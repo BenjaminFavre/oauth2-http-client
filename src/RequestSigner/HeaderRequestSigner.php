@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\RequestSigner;
 
 class HeaderRequestSigner implements RequestSignerInterface
 {
-    /** @var string */
-    private $headerName;
-    /** @var string */
-    private $headerValueFormat;
+    private string $headerName;
 
-    public function __construct(string $headerName, string  $headerValueFormat)
+    private string $headerValueFormat;
+
+    public function __construct(string $headerName, string $headerValueFormat)
     {
         $this->headerName = $headerName;
         $this->headerValueFormat = $headerValueFormat;

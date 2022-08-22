@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\GrantType;
 
 use BenjaminFavre\OAuthHttpClient\Exception\OAuthException;
@@ -11,15 +13,14 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * Convenient trait to extract tokens from oauth server response.
- *
- * @author Benjamin Favre <favre.benjamin@gmail.com>
  */
 trait TokensExtractor
 {
     /**
      * Extracts access token and refresh token from the JSON response of the OAuth server.
-     * 
+     *
      * @param ResponseInterface $response The response from the token endpoint of the OAuth server.
+     *
      * @return Tokens The access token and the refresh token extracted from the response.
      */
     private function extractTokens(ResponseInterface $response): Tokens

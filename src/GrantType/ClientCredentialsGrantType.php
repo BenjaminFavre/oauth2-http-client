@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\GrantType;
 
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -7,21 +9,18 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Implementation of the OAuth client credentials grant type.
- *
- * @author Benjamin Favre <favre.benjamin@gmail.com>
  */
 class ClientCredentialsGrantType implements GrantTypeInterface
 {
     use TokensExtractor;
 
-    /** @var HttpClientInterface */
-    private $client;
-    /** @var string */
-    private $tokenUrl;
-    /** @var string */
-    private $clientId;
-    /** @var string */
-    private $clientSecret;
+    private HttpClientInterface $client;
+
+    private string $tokenUrl;
+
+    private string $clientId;
+
+    private string $clientSecret;
 
     /**
      * @param HttpClientInterface $client A HTTP client to be used to communicate with the OAuth server.
@@ -33,7 +32,7 @@ class ClientCredentialsGrantType implements GrantTypeInterface
         HttpClientInterface $client,
         string $tokenUrl,
         string $clientId,
-        string $clientSecret
+        string $clientSecret,
     ) {
         $this->client = $client;
         $this->tokenUrl = $tokenUrl;
@@ -42,9 +41,8 @@ class ClientCredentialsGrantType implements GrantTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      *
-     * @return Tokens
      * @throws TransportExceptionInterface
      */
     public function getTokens(): Tokens

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\TokensCache;
 
 use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
@@ -7,8 +9,7 @@ use BenjaminFavre\OAuthHttpClient\GrantType\Tokens;
 
 class MemoryTokensCache implements TokensCacheInterface
 {
-    /** @var Tokens|null */
-    private $tokens;
+    private ?Tokens $tokens;
 
     public function get(GrantTypeInterface $grant): Tokens
     {
