@@ -31,7 +31,15 @@ trait TokensExtractor
             throw new OAuthException('Error when calling token endpoint.', 0, $e);
         }
 
-        $token = json_decode($responseBody, true);
+        try {
+            $token = json_decode($responseBody, true, 512, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new OAuthException(
+                'Error when parsing token endpoint JSON response. JSON error was: ' . $e->getMessage(),
+                0,
+                $e,
+            );
+        }
 
         if ($token === null && $responseBody !== 'null') {
             throw new OAuthException('Error when parsing token endpoint JSON response.');
@@ -41,6 +49,6 @@ trait TokensExtractor
             throw new OAuthException('Access token not found in token endpoint response.');
         }
 
-        return new Tokens($token['access_token'], $token['refresh_token'] ?? null);
+        return new Tokens($token['access_token'], isset($token['refresh_token']) && is_string($token['refresh_token']) ? $token['refresh_token'] : null);
     }
 }

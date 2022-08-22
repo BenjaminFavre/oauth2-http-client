@@ -17,7 +17,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-class OAuthHttpClient implements HttpClientInterface
+final class OAuthHttpClient implements HttpClientInterface
 {
     private HttpClientInterface $client;
 
@@ -61,9 +61,6 @@ class OAuthHttpClient implements HttpClientInterface
         return $this;
     }
 
-    /**
-     * @param array<string, mixed> $options
-     */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         $grant = $this->grant;

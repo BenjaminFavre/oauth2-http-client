@@ -9,7 +9,7 @@ use BenjaminFavre\OAuthHttpClient\GrantType\Tokens;
 
 class MemoryTokensCache implements TokensCacheInterface
 {
-    private ?Tokens $tokens;
+    private ?Tokens $tokens = null;
 
     public function get(GrantTypeInterface $grant): Tokens
     {

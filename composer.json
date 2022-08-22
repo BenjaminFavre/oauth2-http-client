@@ -23,11 +23,11 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.28",
-        "phpstan/phpstan": "^0.12.64",
         "phpunit/phpunit": "^9.4.3",
         "sylius-labs/coding-standard": "^4.2",
         "symfony/cache": "^6.0",
-        "symfony/http-client": "^6.0"
+        "symfony/http-client": "^6.0",
+        "vimeo/psalm": "^4.26"
     },
     "provide": {
         "symfony/http-client-implementation": "^2.3.1"
@@ -44,8 +44,8 @@
         }
     },
     "scripts": {
+        "analyse": "psalm",
         "check-style": "ecs check",
-        "fix-style": "ecs check --fix",
-        "phpstan": "vendor/bin/phpstan analyse --level max src tests"
+        "fix-style": "ecs check --fix"
     }
 }

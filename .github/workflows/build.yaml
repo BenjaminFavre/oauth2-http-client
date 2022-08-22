@@ -57,6 +57,7 @@ jobs:
                     - "8.1"
 
                 dependencies:
+                    - "lowest"
                     - "highest"
 
         steps:
@@ -94,6 +95,7 @@ jobs:
                     - "8.1"
 
                 dependencies:
+                    - "lowest"
                     - "highest"
 
         steps:
@@ -113,4 +115,4 @@ jobs:
                     dependency-versions: "${{ matrix.dependencies }}"
 
             -   name: "Static analysis"
-                run: "composer phpstan"
+                run: "composer analyse"
