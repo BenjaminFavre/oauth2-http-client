@@ -23,11 +23,11 @@ final class OAuthHttpClient implements HttpClientInterface
 
     private GrantTypeInterface $grant;
 
-    private RequestSignerInterface|BearerHeaderRequestSigner $signer;
+    private RequestSignerInterface $signer;
 
-    private ResponseCheckerInterface|StatusCode401ResponseChecker $checker;
+    private ResponseCheckerInterface $checker;
 
-    private TokensCacheInterface|MemoryTokensCache $cache;
+    private TokensCacheInterface $cache;
 
     public function __construct(
         HttpClientInterface $client,
@@ -91,6 +91,6 @@ final class OAuthHttpClient implements HttpClientInterface
 
     public function withOptions(array $options): static
     {
-        return new static($this->client->withOptions($options), $this->grant);
+        return new self($this->client->withOptions($options), $this->grant);
     }
 }

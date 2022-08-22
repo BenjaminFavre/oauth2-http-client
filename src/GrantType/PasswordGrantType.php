@@ -39,8 +39,8 @@ class PasswordGrantType implements GrantTypeInterface
         string $tokenUrl,
         string $username,
         string $password,
-        ?string $clientId = null,
-        ?string $clientSecret = null,
+        string $clientId = null,
+        string $clientSecret = null,
     ) {
         $this->client = $client;
         $this->tokenUrl = $tokenUrl;
