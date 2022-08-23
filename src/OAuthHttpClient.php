@@ -1,36 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient;
 
-use BenjaminFavre\OAuthHttpClient\TokensCache\MemoryTokensCache;
-use BenjaminFavre\OAuthHttpClient\TokensCache\TokensCacheInterface;
 use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
-use BenjaminFavre\OAuthHttpClient\ResponseChecker\ResponseCheckerInterface;
-use BenjaminFavre\OAuthHttpClient\ResponseChecker\StatusCode401ResponseChecker;
 use BenjaminFavre\OAuthHttpClient\GrantType\RefreshableGrantTypeInterface;
 use BenjaminFavre\OAuthHttpClient\RequestSigner\BearerHeaderRequestSigner;
 use BenjaminFavre\OAuthHttpClient\RequestSigner\RequestSignerInterface;
+use BenjaminFavre\OAuthHttpClient\ResponseChecker\ResponseCheckerInterface;
+use BenjaminFavre\OAuthHttpClient\ResponseChecker\StatusCode401ResponseChecker;
+use BenjaminFavre\OAuthHttpClient\TokensCache\MemoryTokensCache;
+use BenjaminFavre\OAuthHttpClient\TokensCache\TokensCacheInterface;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-class OAuthHttpClient implements HttpClientInterface
+final class OAuthHttpClient implements HttpClientInterface
 {
-    /** @var HttpClientInterface */
-    private $client;
-    /** @var GrantTypeInterface */
-    private $grant;
-    /** @var RequestSignerInterface */
-    private $signer;
-    /** @var ResponseCheckerInterface */
-    private $checker;
-    /** @var TokensCacheInterface */
-    private $cache;
+    private HttpClientInterface $client;
+
+    private GrantTypeInterface $grant;
+
+    private RequestSignerInterface $signer;
+
+    private ResponseCheckerInterface $checker;
+
+    private TokensCacheInterface $cache;
 
     public function __construct(
         HttpClientInterface $client,
-        GrantTypeInterface $grant
+        GrantTypeInterface $grant,
     ) {
         $this->client = $client;
         $this->grant = $grant;
@@ -60,9 +61,6 @@ class OAuthHttpClient implements HttpClientInterface
         return $this;
     }
 
-    /**
-     * @param array<string, mixed> $options
-     */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         $grant = $this->grant;
@@ -93,6 +91,6 @@ class OAuthHttpClient implements HttpClientInterface
 
     public function withOptions(array $options): static
     {
-        return new static($this->client->withOptions($options), $this->grant);
+        return new self($this->client->withOptions($options), $this->grant);
     }
 }

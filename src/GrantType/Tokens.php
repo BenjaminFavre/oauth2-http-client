@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\GrantType;
 
 /**
  * Value object for an access token and a refresh token.
- *
- * @author Benjamin Favre <favre.benjamin@gmail.com>
  */
 class Tokens
 {
-    /** @var string */
-    private $accessToken;
-    /** @var string|null */
-    private $refreshToken;
+    private string $accessToken;
+
+    private ?string $refreshToken;
 
     public function __construct(string $accessToken, ?string $refreshToken)
     {

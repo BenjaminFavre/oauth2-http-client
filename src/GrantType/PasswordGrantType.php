@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BenjaminFavre\OAuthHttpClient\GrantType;
 
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -7,41 +9,38 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Implementation of the OAuth password grant type.
- *
- * @author Benjamin Favre <favre.benjamin@gmail.com>
  */
 class PasswordGrantType implements GrantTypeInterface
 {
     use TokensExtractor;
 
-    /** @var HttpClientInterface */
-    private $client;
-    /** @var string */
-    private $tokenUrl;
-    /** @var string */
-    private $username;
-    /** @var string */
-    private $password;
-    /** @var ?string */
-    private $clientId;
-    /** @var ?string */
-    private $clientSecret;
+    private HttpClientInterface $client;
+
+    private string $tokenUrl;
+
+    private string $username;
+
+    private string $password;
+
+    private ?string $clientId;
+
+    private ?string $clientSecret;
 
     /**
      * @param HttpClientInterface $client A HTTP client to be used to communicate with the OAuth server.
      * @param string $tokenUrl The full URL of the token endpoint of the OAuth server.
      * @param string $username The OAuth user username.
      * @param string $password The OAuth user password.
-     * @param ?string $clientId The OAuth client ID.
-     * @param ?string $clientSecret The OAuth client secret.
+     * @param string|null $clientId The OAuth client ID.
+     * @param string|null $clientSecret The OAuth client secret.
      */
     public function __construct(
         HttpClientInterface $client,
         string $tokenUrl,
         string $username,
         string $password,
-        ?string $clientId = null,
-        ?string $clientSecret = null
+        string $clientId = null,
+        string $clientSecret = null,
     ) {
         $this->client = $client;
         $this->tokenUrl = $tokenUrl;
@@ -52,9 +51,8 @@ class PasswordGrantType implements GrantTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      *
-     * @return Tokens
      * @throws TransportExceptionInterface
      */
     public function getTokens(): Tokens
@@ -64,7 +62,7 @@ class PasswordGrantType implements GrantTypeInterface
             'username' => $this->username,
             'password' => $this->password,
         ];
-        
+
         if ($this->clientId !== null && $this->clientSecret !== null) {
             $parameters = array_merge($parameters, [
                 'client_id' => $this->clientId,
