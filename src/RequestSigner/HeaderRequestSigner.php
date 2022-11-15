@@ -18,7 +18,11 @@ class HeaderRequestSigner implements RequestSignerInterface
 
     public function modify(array &$options, string $token): void
     {
-        if (!array_key_exists('headers', $options) || !is_array($options['headers'])) {
+        if (!array_key_exists('headers', $options)) {
+            $options['headers'] = [];
+        }
+
+        if (!is_array($options['headers'])) {
             return;
         }
 
