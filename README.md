@@ -73,3 +73,127 @@ You can use the HeaderRequestSigner to add the access token in another header, o
 A class in charge of checking if the API call failed because of a token expiration.
 By default, the decorator uses StatusCode401ResponseChecker that identifies 401 response codes as the signal the access token needs to be renewed.
 It can lead to false positives (401 response code can be returned for other reasons than token expiration), so you can implement the interface if your OAuth server returns exploitable fine-grained error reasons.
+
+## Full Symfony-specific example
+
+Here is a full example of how to use this library inside a Symfony application.
+
+- with custom Grant Type
+- with Redis as a cache layer
+- with [scoped](https://symfony.com/doc/current/http_client.html#scoping-client) HTTP Client definition
+- with different URLs for the OAuth server and the API
+
+First of all, we need to define 2 HTTP Clients: one for the OAuth server and one for the API.
+
+```yaml
+framework:
+    http_client:
+        scoped_clients:
+            sharepoint_oauth.client:
+                scope: '%env(resolve:SHAREPOINT_OAUTH_URL)%'
+                headers:
+                    Accept: 'application/json;odata=verbose'
+                # other specific headers or settings if needed
+            sharepoint_api.client:
+                scope: '%env(resolve:SHAREPOINT_API_URL)%'
+                headers:
+                    Accept: 'application/json;odata=verbose'
+                # other specific headers or settings if needed
+```
+
+Second, we need to define a custom Grant Type that will fetch the access token from the OAuth server to connect to SharePoint and will use `sharepoint_oauth.client` defined above. 
+
+It differs from a built-in `ClientCredentialsGrantType` on purpose, to show how we can customize the authentication process:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Sharepoint;
+
+use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
+use BenjaminFavre\OAuthHttpClient\GrantType\Tokens;
+use BenjaminFavre\OAuthHttpClient\GrantType\TokensExtractor;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+final class CustomClientCredentialsGrantType implements GrantTypeInterface
+{
+    use TokensExtractor;
+
+    public function __construct(
+        private HttpClientInterface $client,
+        private string $sharepointOauthClientId,
+        private string $sharepointOauthClientSecret,
+        private string $sharepointOauthUrl,
+        private string $sharepointOauthResource,
+    ) {
+    }
+
+    public function getTokens(): Tokens
+    {
+        $response = $this->client->request(Request::METHOD_POST, $this->sharepointOauthUrl, [
+            'body' => http_build_query([
+                'grant_type' => 'client_credentials',
+                'client_id' => $this->sharepointOauthClientId,
+                'client_secret' => $this->sharepointOauthClientSecret,
+                'resource' => $this->sharepointOauthResource,
+            ]),
+        ]);
+
+        return $this->extractTokens($response);
+    }
+}
+```
+
+In order to pass the required parameters to the Grant Type, we need to define the service in `service.yaml` and bind parameters:
+
+```yaml
+services:
+    App\Sharepoint\CustomClientCredentialsGrantType:
+        bind:
+            $client: '@sharepoint_oauth.client'
+            string $sharepointOauthClientId: '%env(SHAREPOINT_OAUTH_CLIENT_ID)%'
+            string $sharepointOauthClientSecret: '%env(SHAREPOINT_OAUTH_CLIENT_SECRET)%'
+            string $sharepointOauthResource: '%env(SHAREPOINT_OAUTH_RESOURCE)%'
+            string $sharepointOauthUrl: '%env(SHAREPOINT_OAUTH_URL)%'
+```
+
+Then, we need to define our cache layer instead of default `in-memory`, by adding the following service definition to `services.yaml`:
+
+```yaml
+BenjaminFavre\OAuthHttpClient\TokensCache\SymfonyTokensCacheAdapter:
+    bind:
+        $cache: '@cache.app'
+        $cacheKey: 'sharepoint'
+```
+
+`@cache.app` is an application cache, configured in your system. In our example, this is a Redis cache:
+
+```yaml
+framework:
+    cache:
+        app: cache.adapter.redis
+        default_redis_provider: '%env(REDIS_URL)%'
+```
+
+Finally, we can define our `OAuthHttpClient` service in `services.yaml` that uses `sharepoint_api.client` and sets configured Redis cache:
+
+```yaml
+BenjaminFavre\OAuthHttpClient\OAuthHttpClient:
+    bind:
+        $client: '@sharepoint_api.client'
+        $grant: '@App\Sharepoint\CustomClientCredentialsGrantType'
+    calls:
+        - [ setCache, [ '@BenjaminFavre\OAuthHttpClient\TokensCache\SymfonyTokensCacheAdapter' ] ]
+```
+
+After this, `OAuthHttpClient` service is ready to be used in your application in any other classes:
+
+```php
+public function __construct(
+    private OAuthHttpClient $sharepointClient,
+) {
+}
+```
