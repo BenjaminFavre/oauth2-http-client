@@ -14,7 +14,7 @@ interface RefreshableGrantTypeInterface extends GrantTypeInterface
      *
      * @param string $refreshToken An OAuth refresh token acquired by this grant type.
      *
-     * @return RefreshTokenGrantType A refresh grant type built from this grant type.
+     * @return GrantTypeInterface A refresh grant type built from this grant type.
      */
     public function getRefreshTokenGrant(string $refreshToken): GrantTypeInterface;
 }
