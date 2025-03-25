@@ -16,7 +16,7 @@
     ],
     "homepage": "https://github.com/BenjaminFavre/oauth2-http-client",
     "require": {
-        "php": "^8.0",
+        "php": "^8.4",
         "ext-json": "*",
         "symfony/cache-contracts": "^3.0",
         "symfony/http-client-contracts": "^3.0"
