@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Implementation of the OAuth authorization grant type.
  */
-class AuthorizationCodeGrantType implements RefreshableGrantTypeInterface
+final class AuthorizationCodeGrantType implements RefreshableGrantTypeInterface
 {
     use TokensExtractor;
 
@@ -50,6 +50,7 @@ class AuthorizationCodeGrantType implements RefreshableGrantTypeInterface
      *
      * @throws TransportExceptionInterface
      */
+    #[\Override]
     public function getTokens(): Tokens
     {
         $response = $this->client->request('POST', $this->tokenUrl, [
@@ -64,6 +65,7 @@ class AuthorizationCodeGrantType implements RefreshableGrantTypeInterface
         return $this->extractTokens($response);
     }
 
+    #[\Override]
     public function getRefreshTokenGrant(string $refreshToken): GrantTypeInterface
     {
         return new RefreshTokenGrantType($this->client, $this->tokenUrl, $refreshToken, $this->clientId, $this->clientSecret);

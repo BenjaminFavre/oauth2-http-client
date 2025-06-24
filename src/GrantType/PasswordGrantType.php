@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Implementation of the OAuth password grant type.
  */
-class PasswordGrantType implements GrantTypeInterface
+final class PasswordGrantType implements GrantTypeInterface
 {
     use TokensExtractor;
 

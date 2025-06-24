@@ -9,6 +9,6 @@ use RuntimeException;
 /**
  * Represents errors during OAuth protocol.
  */
-class OAuthException extends RuntimeException implements OAuthExceptionInterface
+final class OAuthException extends RuntimeException implements OAuthExceptionInterface
 {
 }

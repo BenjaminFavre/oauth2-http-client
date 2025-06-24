@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Implementation of the OAuth client credentials grant type.
  */
-class ClientCredentialsGrantType implements GrantTypeInterface
+final class ClientCredentialsGrantType implements GrantTypeInterface
 {
     use TokensExtractor;
 
@@ -45,6 +45,7 @@ class ClientCredentialsGrantType implements GrantTypeInterface
      *
      * @throws TransportExceptionInterface
      */
+    #[\Override]
     public function getTokens(): Tokens
     {
         $response = $this->client->request('POST', $this->tokenUrl, [
