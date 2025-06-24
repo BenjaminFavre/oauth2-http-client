@@ -9,6 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Implementation of the OAuth authorization grant type.
+ * @psalm-api
  */
 final class AuthorizationCodeGrantType implements RefreshableGrantTypeInterface
 {

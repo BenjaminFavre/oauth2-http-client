@@ -16,6 +16,7 @@ class HeaderRequestSigner implements RequestSignerInterface
         $this->headerValueFormat = $headerValueFormat;
     }
 
+    #[\Override]
     public function modify(array &$options, string $token): void
     {
         if (!array_key_exists('headers', $options)) {

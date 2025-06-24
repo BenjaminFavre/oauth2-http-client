@@ -9,6 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Implementation of the OAuth client credentials grant type.
+ * @psalm-api
  */
 final class ClientCredentialsGrantType implements GrantTypeInterface
 {
