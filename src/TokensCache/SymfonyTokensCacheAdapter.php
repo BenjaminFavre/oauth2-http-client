@@ -9,7 +9,10 @@ use BenjaminFavre\OAuthHttpClient\GrantType\Tokens;
 use RuntimeException;
 use Symfony\Contracts\Cache\CacheInterface;
 
-class SymfonyTokensCacheAdapter implements TokensCacheInterface
+/**
+ * @psalm-api
+ */
+final class SymfonyTokensCacheAdapter implements TokensCacheInterface
 {
     private CacheInterface $cache;
 
@@ -21,6 +24,7 @@ class SymfonyTokensCacheAdapter implements TokensCacheInterface
         $this->cacheKey = $cacheKey;
     }
 
+    #[\Override]
     public function get(GrantTypeInterface $grant): Tokens
     {
         $tokens = $this->cache->get($this->cacheKey, function () use ($grant) {
@@ -34,6 +38,7 @@ class SymfonyTokensCacheAdapter implements TokensCacheInterface
         return $tokens;
     }
 
+    #[\Override]
     public function clear(): void
     {
         $this->cache->delete($this->cacheKey);

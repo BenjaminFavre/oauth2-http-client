@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BenjaminFavre\OAuthHttpClient\RequestSigner;
 
-class BearerHeaderRequestSigner extends HeaderRequestSigner
+final class BearerHeaderRequestSigner extends HeaderRequestSigner
 {
     public function __construct()
     {

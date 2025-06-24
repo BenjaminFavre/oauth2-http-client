@@ -40,6 +40,9 @@ final class OAuthHttpClient implements HttpClientInterface
         $this->cache = new MemoryTokensCache();
     }
 
+    /**
+     * @psalm-api
+     */
     public function setSigner(RequestSignerInterface $signer): self
     {
         $this->signer = $signer;
@@ -47,6 +50,9 @@ final class OAuthHttpClient implements HttpClientInterface
         return $this;
     }
 
+    /**
+     * @psalm-api
+     */
     public function setChecker(ResponseCheckerInterface $checker): self
     {
         $this->checker = $checker;
@@ -54,6 +60,9 @@ final class OAuthHttpClient implements HttpClientInterface
         return $this;
     }
 
+    /**
+     * @psalm-api
+     */
     public function setCache(TokensCacheInterface $cache): self
     {
         $this->cache = $cache;
@@ -61,6 +70,7 @@ final class OAuthHttpClient implements HttpClientInterface
         return $this;
     }
 
+    #[\Override]
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         $grant = $this->grant;
@@ -84,11 +94,13 @@ final class OAuthHttpClient implements HttpClientInterface
         throw new RuntimeException();
     }
 
+    #[\Override]
     public function stream($responses, ?float $timeout = null): ResponseStreamInterface
     {
         return $this->client->stream($responses, $timeout);
     }
 
+    #[\Override]
     public function withOptions(array $options): static
     {
         return new self($this->client->withOptions($options), $this->grant);

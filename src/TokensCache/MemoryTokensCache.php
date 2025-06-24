@@ -7,10 +7,11 @@ namespace BenjaminFavre\OAuthHttpClient\TokensCache;
 use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
 use BenjaminFavre\OAuthHttpClient\GrantType\Tokens;
 
-class MemoryTokensCache implements TokensCacheInterface
+final class MemoryTokensCache implements TokensCacheInterface
 {
     private ?Tokens $tokens = null;
 
+    #[\Override]
     public function get(GrantTypeInterface $grant): Tokens
     {
         if ($this->tokens === null) {
@@ -20,6 +21,7 @@ class MemoryTokensCache implements TokensCacheInterface
         return $this->tokens;
     }
 
+    #[\Override]
     public function clear(): void
     {
         $this->tokens = null;

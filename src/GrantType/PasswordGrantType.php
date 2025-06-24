@@ -55,6 +55,7 @@ final class PasswordGrantType implements GrantTypeInterface
      *
      * @throws TransportExceptionInterface
      */
+    #[\Override]
     public function getTokens(): Tokens
     {
         $parameters = [
