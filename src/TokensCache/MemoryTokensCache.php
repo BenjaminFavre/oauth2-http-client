@@ -7,7 +7,10 @@ namespace BenjaminFavre\OAuthHttpClient\TokensCache;
 use BenjaminFavre\OAuthHttpClient\GrantType\GrantTypeInterface;
 use BenjaminFavre\OAuthHttpClient\GrantType\Tokens;
 
-final class MemoryTokensCache implements TokensCacheInterface
+/**
+ * @psalm-api
+ */
+class MemoryTokensCache implements TokensCacheInterface
 {
     private ?Tokens $tokens = null;
 

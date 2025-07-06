@@ -9,8 +9,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Implementation of the OAuth refresh token grant type.
+ * @psalm-api
  */
-final class RefreshTokenGrantType implements GrantTypeInterface
+class RefreshTokenGrantType implements GrantTypeInterface
 {
     use TokensExtractor;
 

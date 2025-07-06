@@ -12,7 +12,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 /**
  * @psalm-api
  */
-final class SymfonyTokensCacheAdapter implements TokensCacheInterface
+class SymfonyTokensCacheAdapter implements TokensCacheInterface
 {
     private CacheInterface $cache;
 

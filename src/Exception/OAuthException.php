@@ -8,7 +8,8 @@ use RuntimeException;
 
 /**
  * Represents errors during OAuth protocol.
+ * @psalm-api
  */
-final class OAuthException extends RuntimeException implements OAuthExceptionInterface
+class OAuthException extends RuntimeException implements OAuthExceptionInterface
 {
 }
