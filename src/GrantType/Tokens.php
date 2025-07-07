@@ -6,6 +6,7 @@ namespace BenjaminFavre\OAuthHttpClient\GrantType;
 
 /**
  * Value object for an access token and a refresh token.
+ * @psalm-api
  */
 class Tokens
 {

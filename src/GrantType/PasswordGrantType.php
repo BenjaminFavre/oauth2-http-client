@@ -9,6 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Implementation of the OAuth password grant type.
+ * @psalm-api
  */
 class PasswordGrantType implements GrantTypeInterface
 {
@@ -55,6 +56,7 @@ class PasswordGrantType implements GrantTypeInterface
      *
      * @throws TransportExceptionInterface
      */
+    #[\Override]
     public function getTokens(): Tokens
     {
         $parameters = [

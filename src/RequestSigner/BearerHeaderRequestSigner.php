@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace BenjaminFavre\OAuthHttpClient\RequestSigner;
 
+/**
+ * @psalm-api
+ */
 class BearerHeaderRequestSigner extends HeaderRequestSigner
 {
     public function __construct()

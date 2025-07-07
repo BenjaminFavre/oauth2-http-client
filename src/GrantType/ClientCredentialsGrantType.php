@@ -9,6 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Implementation of the OAuth client credentials grant type.
+ * @psalm-api
  */
 class ClientCredentialsGrantType implements GrantTypeInterface
 {
@@ -45,6 +46,7 @@ class ClientCredentialsGrantType implements GrantTypeInterface
      *
      * @throws TransportExceptionInterface
      */
+    #[\Override]
     public function getTokens(): Tokens
     {
         $response = $this->client->request('POST', $this->tokenUrl, [
